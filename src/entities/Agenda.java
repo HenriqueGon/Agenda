@@ -2,6 +2,8 @@ package entities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Agenda {
   
@@ -14,16 +16,25 @@ public class Agenda {
   }
 
   public void inserir(String nome, String numero, String email) {
-    this.contatos.add(new Contato(nome, numero, email));
+    if (nome.isEmpty() || nome == null) {
+      System.out.println("Nome Inválido");
+    } else if (numero.isEmpty() || numero == null) {
+      System.out.println("Número Inválido");
+    } else if (email.isEmpty() || email == null || !emailValido(email)) {
+      System.out.println("Email Inválido");
+    } else {
+      this.contatos.add(new Contato(nome, numero, email));
 
-    System.out.println("Contato salvo!");
+      System.out.println("Contato salvo! \n");
+    }
+
   }
 
-  public List<Contato> buscarPorNome(String nome) {
+  public List<Contato> buscarContato(String dado) {
     ArrayList<Contato> contatosEncontrados = new ArrayList<Contato>();
 
     for (Contato contato : this.contatos) {
-      if (contato.getNome().equals(nome)) {
+      if (contato.getNome().contains(dado) || contato.getNumero().contains(dado) || contato.getEmail().contains(dado)) {
         contatosEncontrados.add(contato);
       }
     }
@@ -32,8 +43,22 @@ public class Agenda {
   }
 
   public void remover(Contato contato) {
-    contatos.remove(contato);
+    this.contatos.remove(contato);
 
-    System.out.println("Contato removido!");
+    System.out.println("Contato removido! \n");
+  }
+
+  //Método encontrado na internet.
+  public static boolean emailValido(String email) {
+    boolean emailValido = false;
+
+    String regex = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+    Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+    Matcher matcher = pattern.matcher(email);
+    if (matcher.matches()) {
+      emailValido = true;
+    }
+    
+    return emailValido;
   }
 }
