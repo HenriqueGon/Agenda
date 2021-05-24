@@ -17,26 +17,29 @@ public class Agenda {
 
   public void inserir(String nome, String numero, String email) {
     if (nome.isEmpty() || nome == null) {
-      System.out.println("Nome Inválido");
+      System.out.println("Nome Inválido \n");
     } else if (numero.isEmpty() || numero == null) {
-      System.out.println("Número Inválido");
+      System.out.println("Número Inválido \n");
     } else if (email.isEmpty() || email == null || !emailValido(email)) {
-      System.out.println("Email Inválido");
+      System.out.println("Email Inválido \n");
     } else {
       this.contatos.add(new Contato(nome, numero, email));
 
       System.out.println("Contato salvo! \n");
     }
-
   }
 
   public List<Contato> buscarContato(String dado) {
     ArrayList<Contato> contatosEncontrados = new ArrayList<Contato>();
-
-    for (Contato contato : this.contatos) {
-      if (contato.getNome().contains(dado) || contato.getNumero().contains(dado) || contato.getEmail().contains(dado)) {
-        contatosEncontrados.add(contato);
+    
+    if (!dado.isEmpty() && dado != null) {
+      for (Contato contato : this.contatos) {
+        if (contato.getNome().contains(dado) || contato.getNumero().contains(dado) || contato.getEmail().contains(dado)) {
+          contatosEncontrados.add(contato);
+        }
       }
+    } else {
+      System.out.println("Dado Inválido!");
     }
 
     return contatosEncontrados;
@@ -49,12 +52,13 @@ public class Agenda {
   }
 
   //Método encontrado na internet.
-  public static boolean emailValido(String email) {
+  private static boolean emailValido(String email) {
     boolean emailValido = false;
 
     String regex = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
     Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
     Matcher matcher = pattern.matcher(email);
+
     if (matcher.matches()) {
       emailValido = true;
     }
