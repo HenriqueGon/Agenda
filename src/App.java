@@ -15,15 +15,21 @@ public class App {
             opcao = opcoes();
 
             if (opcao == 0) {
-                sc.close();
-            } else if (opcao == 1) {
-                adicionar();
-            } else if (opcao == 2) {
-                buscar();
-            } else if (opcao == 3) {
-                remover();
-            } else {
-                System.out.println("Opção Inválida \n");
+                return;
+            }
+
+            switch(opcao) {
+                case 1:
+                    adicionar();
+                    break;
+                case 2:
+                    buscar();
+                    break;
+                case 3:
+                    remover();
+                    break;
+                default:   
+                    System.out.println("Opção Inválida \n");
             }
         } while(opcao != 0);
     }
