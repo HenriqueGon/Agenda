@@ -20,7 +20,7 @@ public class App {
 
             switch(opcao) {
                 case 1:
-                    adicionar();
+                    inserir();
                     break;
                 case 2:
                     buscar();
@@ -29,7 +29,7 @@ public class App {
                     remover();
                     break;
                 default:   
-                    System.out.println("Opção Inválida \n");
+                    System.out.println("Opcao Invalida \n");
             }
         } while(opcao != 0);
     }
@@ -42,18 +42,18 @@ public class App {
         "(0) Sair. \r\n" + 
         "");
 
-        System.out.println("Digite a opção: ");
+        System.out.println("Digite a opcao: ");
 
         return sc.nextInt();
     }
 
-    private static void adicionar() {
+    private static void inserir() {
         sc.nextLine();
 
         System.out.println("Digite o nome do contato: ");
         String nome = sc.nextLine();
 
-        System.out.println("Digite o número do contato: ");
+        System.out.println("Digite o numero do contato: ");
         String numero = sc.nextLine();
 
         System.out.println("Digite o email do contato: ");
@@ -76,7 +76,7 @@ public class App {
         if (contatosEncontrados.size() > 0) {
             for (Contato contato : contatosEncontrados) {
                 System.out.println("Nome: " + contato.getNome());
-                System.out.println("Número: " + contato.getNumero());
+                System.out.println("Numero: " + contato.getNumero());
                 System.out.println("Email: " + contato.getEmail());
                 System.out.println("");
             }
@@ -89,18 +89,22 @@ public class App {
         if (contatos.size() > 0) {
             System.out.println("");
 
-            for (int i = 0; i < contatos.size(); i++) {
-                System.out.println("ID: " + i);
-                System.out.println("Nome: " + contatos.get(i).getNome());
-                System.out.println("Número: " + contatos.get(i).getNumero());
-                System.out.println("Email: " + contatos.get(i).getEmail());
+            for (Contato contato : contatos) {
+                System.out.println("ID: " + contato.getId());
+                System.out.println("Nome: " + contato.getNome());
+                System.out.println("Numero: " + contato.getNumero());
+                System.out.println("Email: " + contato.getEmail());
                 System.out.println("");
             }
 
             System.out.println("Digite o ID do contato que deseja remover: ");
             int id = sc.nextInt();
-
-            agenda.remover(contatos.get(id));
+            
+            try {
+            	agenda.remover(contatos.get(id));
+            } catch(Exception ex) {
+            	
+            }
         }
     }
 }
