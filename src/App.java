@@ -15,6 +15,7 @@ public class App {
             opcao = opcoes();
 
             if (opcao == 0) {
+            	agenda.close();
                 return;
             }
 
@@ -90,7 +91,7 @@ public class App {
             System.out.println("");
 
             for (Contato contato : contatos) {
-                System.out.println("ID: " + contato.getId());
+                System.out.println("ID: " + (contato.getId() - 1));
                 System.out.println("Nome: " + contato.getNome());
                 System.out.println("Numero: " + contato.getNumero());
                 System.out.println("Email: " + contato.getEmail());
@@ -100,10 +101,12 @@ public class App {
             System.out.println("Digite o ID do contato que deseja remover: ");
             int id = sc.nextInt();
             
+            System.out.println(contatos.get(id));
+            
             try {
             	agenda.remover(contatos.get(id));
             } catch(Exception ex) {
-            	
+            	System.out.println("Ocorreu um erro");
             }
         }
     }

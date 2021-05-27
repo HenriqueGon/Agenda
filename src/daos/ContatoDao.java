@@ -1,6 +1,5 @@
 package daos;
 
-import java.io.PrintStream;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -49,12 +48,12 @@ public class ContatoDao {
 				getEntityManager().getTransaction().commit();
 				System.out.println("Contato excluido!");
 			} catch (Exception ex) {
-				System.out.println("Um erro ocorreu durante a exclusão do contato!");
+				System.out.println("Um erro ocorreu durante a exclusao do contato!");
 				System.out.println("Erro: " + ex.getMessage());
 			}
 			
 		} else {
-			System.out.println("Erro: Contato não encontrado!");
+			System.out.println("Erro: Contato nao encontrado!");
 		}
 	}
 	

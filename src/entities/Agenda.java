@@ -14,7 +14,8 @@ public class Agenda {
 	public Agenda() {}
   
 	public List<Contato> getContatos() {
-		return contatoDao.getTodosContatos();
+		List<Contato> contatos = contatoDao.getTodosContatos();
+		return contatos;
 	}
 
 	public void inserir(String nome, String numero, String email) {
@@ -31,9 +32,10 @@ public class Agenda {
 
 	public List<Contato> buscarContato(String dado) {
 		ArrayList<Contato> contatosEncontrados = new ArrayList<Contato>();
-    
+		List<Contato> contatos = contatoDao.getTodosContatos();
+		
 		if (!dado.isEmpty() && dado != null) {
-			for (Contato contato : contatoDao.getTodosContatos()) {
+			for (Contato contato : contatos) {
 				if (contato.getNome().contains(dado) || contato.getNumero().contains(dado) || contato.getEmail().contains(dado)) {
 					contatosEncontrados.add(contato);
 				}
@@ -61,5 +63,9 @@ public class Agenda {
 		}
     
 		return emailValido;
+	}
+	
+	public void close() throws Exception {
+		contatoDao.finalizar();
 	}
 }
