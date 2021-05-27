@@ -5,60 +5,67 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import daos.ContatoDao;
+
 public class Agenda {
+	
+	private final ContatoDao contatoDao = new ContatoDao();
+   
+	public Agenda() {}
   
-  private ArrayList<Contato> contatos = new ArrayList<Contato>();
-  
-  public Agenda() {}
-  
-  public List<Contato> getContatos() {
-    return this.contatos;
-  }
+	public List<Contato> getContatos() {
+		List<Contato> contatos = contatoDao.getTodosContatos();
+		return contatos;
+	}
 
-  public void inserir(String nome, String numero, String email) {
-    if (nome.isEmpty() || nome == null) {
-      System.out.println("Nome Inválido");
-    } else if (numero.isEmpty() || numero == null) {
-      System.out.println("Número Inválido");
-    } else if (email.isEmpty() || email == null || !emailValido(email)) {
-      System.out.println("Email Inválido");
-    } else {
-      this.contatos.add(new Contato(nome, numero, email));
+	public void inserir(String nome, String numero, String email) {
+		if (nome.isEmpty() || nome == null) {
+			System.out.println("Nome Invalido \n");
+	    } else if (numero.isEmpty() || numero == null) {
+	      System.out.println("Numero Invalido \n");
+	    } else if (email.isEmpty() || email == null || !emailValido(email)) {
+	      System.out.println("Email Invalido \n");
+	    } else {
+	    	contatoDao.inserir(new Contato(nome, numero, email));
+	    }
+	}
 
-      System.out.println("Contato salvo! \n");
-    }
+	public List<Contato> buscarContato(String dado) {
+		ArrayList<Contato> contatosEncontrados = new ArrayList<Contato>();
+		List<Contato> contatos = contatoDao.getTodosContatos();
+		
+		if (!dado.isEmpty() && dado != null) {
+			for (Contato contato : contatos) {
+				if (contato.getNome().contains(dado) || contato.getNumero().contains(dado) || contato.getEmail().contains(dado)) {
+					contatosEncontrados.add(contato);
+				}
+			}
+		} else {
+			System.out.println("Dado Invalido!");
+		}
 
-  }
+		return contatosEncontrados;
+	}
 
-  public List<Contato> buscarContato(String dado) {
-    ArrayList<Contato> contatosEncontrados = new ArrayList<Contato>();
+	public void remover(Contato contato) {
+		contatoDao.remover(contato.getId());
+	}
 
-    for (Contato contato : this.contatos) {
-      if (contato.getNome().contains(dado) || contato.getNumero().contains(dado) || contato.getEmail().contains(dado)) {
-        contatosEncontrados.add(contato);
-      }
-    }
+	private static boolean emailValido(String email) {
+		boolean emailValido = false;
 
-    return contatosEncontrados;
-  }
+		String regex = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+		Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(email);
 
-  public void remover(Contato contato) {
-    this.contatos.remove(contato);
-
-    System.out.println("Contato removido! \n");
-  }
-
-  //Método encontrado na internet.
-  public static boolean emailValido(String email) {
-    boolean emailValido = false;
-
-    String regex = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
-    Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-    Matcher matcher = pattern.matcher(email);
-    if (matcher.matches()) {
-      emailValido = true;
-    }
+		if (matcher.matches()) {
+			emailValido = true;
+		}
     
-    return emailValido;
-  }
+		return emailValido;
+	}
+	
+	public void close() throws Exception {
+		contatoDao.finalizar();
+	}
 }
