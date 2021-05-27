@@ -14,11 +14,11 @@ public class Contato {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	private String nome = "";
+	private String nome;
 	
-	private String numero = "";
+	private String numero;
 	
-	private String email = "";
+	private String email;
 
 	public Contato(String nome, String numero, String email) {
 		this.nome = nome;
